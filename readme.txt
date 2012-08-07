@@ -1,0 +1,89 @@
+---Screenshots---
+
+![proglass screenshot](/screenshot_proglass.png "Proglass with LaTeXML")
+![prosilver screenshot](/screenshot_prosilver.png "Prosilver with LaTeXML")
+
+---Install latexml--- 
+
+On a debian system:
+
+    sudo apt-get install latexml
+    
+Or from source
+
+    svn co https://svn.mathweb.org/repos/LaTeXML/trunk latexml
+    cd latexml
+    perl Makefile.PL --prefix=/usr
+    make
+    sudo make install
+    
+---Patching latexml---
+
+As of revision 2526 there seems to be a bug in latexmlpost for reading from
+stdin. The bug report is at https://trac.mathweb.org/LaTeXML/ticket/1634.
+It's an easy fix. Just apply the following patch:
+
+    Index: lib/LaTeXML/Post.pm
+    ===================================================================
+    --- lib/LaTeXML/Post.pm (revision 2526)
+    +++ lib/LaTeXML/Post.pm (working copy)
+    @@ -397,7 +397,7 @@
+       my $string;
+       { local $/ = undef; $string = <>; }
+       $options{sourceDirectory} = '.' unless $options{sourceDirectory};
+    -  my $doc = $class->new(LaTeXML::Common::XML::Parser()->parseString($string),%options);
+    +  my $doc = $class->new(LaTeXML::Common::XML::Parser->new()->parseString($string),%options);
+       $doc->validate if $$doc{validate};
+       $doc; }
+
+---Install the files---
+
+Copy the latexml directory to your phpbb root directory
+Edit phpbb_hook.php setting the following variables to their correct location:
+
+    // adjust this to match your system configuration
+    $latexml_path      = "/usr/local/bin/latexml";
+    $latexmlpost_path  = "/usr/local/bin/latexmlpost";
+    $latexmlstrip_path = "/var/www/phpBB3/latexml/latexml_strip.pl";
+
+---Setup includes/bbcode.php---
+
+Apply the following patch. Change "/var/www/phpBB3" to whatever the root 
+directory of PHPBB is. Note that this is at line 118 (at least with my version,
+whichever that is). 
+
+    118a119,120
+    >       include("/var/www/phpBB3/latexml/phpbb_hook.php"); 
+    > 
+    
+---Create the BBCode---
+
+Go to 
+
+ * Admin Control Panel
+ ** Posting (tab)
+ *** BBCodes (on the left)
+ 
+Create a new bbcode  like this:
+
+    [tex]{TEXT}[/tex]
+    
+Leave the HTML Replacement blank. Check "Display on posting page". Then click
+"submit"
+
+---Edit Templates---
+
+For any active templates you have, you need to add a reference to the latexml
+stylesheet. There is probably a correct way to do this, but I did manually. 
+For each template (prosilver, proglass, prosilver special edition, prosilver 
+wide), I add the following line to "overall_header.html"
+
+<link rel="stylesheet" type="text/css" href="/phpBB3/latexml/core.css"/>
+
+I put it right before {META}
+
+
+
+
+
+ 

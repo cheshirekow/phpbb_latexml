@@ -1,0 +1,161 @@
+/*======================================================================
+ Core CSS for LaTeXML documents converted to (X)HTML 
+ --- Append a <link rel="stylesheet" type="text/css" href="/phpBB3/latexml/core.css"/>
+ --- to the overall_header.html of the active style template
+ */
+
+/* Generic Page layout */
+/* Header & footer */
+/*.latexml-header:before { content:url(latexml.png); }*/
+.latexml-header,.latexml-footer   { font-size:80%; }
+.latexml-header .latexml-previous,
+.latexml-footer .latexml-previous { float:left; }
+.latexml-header .latexml-up,
+.latexml-footer           { display:block; text-align:center; }
+.latexml-header .latexml-next,
+.latexml-footer .latexml-next     { float:right; }
+.latexml-header li { padding:0.1em 0.2em 0.1em 1em;}
+
+/* Main content */
+.latexml-content { clear:both; padding-top:5px; border-top:1px solid; }
+.latexml-footer  { margin-top:5px;  border-top:1px solid; }
+
+.latexml-LaTeXML-logo { fonts-size:80%; margin-top: 5px; float:right; }
+.latexml-LaTeXML-logo a { font-variant: small-caps; }
+.latexml-LaTeXML-logo img { vertical-align:-3px; }
+
+/* if shown */
+.latexml-navbar .latexml-toc li { margin-left:-0.5em; }
+.latexml-navbar li { white-space:nowrap; display:block; overflow:hidden; }
+.latexml-navbar li .latexml-here { white-space:normal; overflow:visible; }
+
+/*======================================================================
+ Titles & Frontmatter */
+h1 { text-align:center; font-size: 150%; font-family:sans-serif;}
+h2 { font-family:sans-serif; padding-left:0.2em; margin-left:-0.5em; }   
+h3 { font-family:sans-serif; padding-left:0.2em; margin-left:-0.3em; }
+/* h6 { display:run-in; }*/
+/* Hack to simulate run-in! */
+h6 { display:inline; font-size:100%; font-family:sans-serif; }
+h6:after { content:" "; }
+h6 + div.latexml-para,
+h6 + p { display:inline; }
+
+.latexml-subtitle    { text-align:center; font-size: 120%; font-family:sans-serif;
+	       padding-left:0.2em; margin-left:-0.5em; }
+.latexml-author      { text-align:center; font-family:sans-serif; }
+.latexml-author .latexml-personname  { font-size: 130%; }
+.latexml-dedicatory  { font-style:oblique; }
+.latexml-classification,
+.latexml-keywords    { font-size:90%; margin-left:4em; }
+.latexml-abstract    { margin:1em 4em 1em 4em; }
+.latexml-toc li      { list-style-type:none;  }
+
+.latexml-navbar { display: none; } /* override! */
+.latexml-main { margin:0px; padding:1em 3em 1em 2em; }
+
+/*======================================================================
+ Blocks, Lists, Floats */
+.latexml-inline-block { display:inline-block; }
+div.latexml-equation { display:block; width:95%; text-align:center; }
+.latexml-equation span.latexml-refnum.left { position:absolute; left:2em; }
+.latexml-equation span.latexml-refnum.right { position:absolute; right:2em; }
+
+.latexml-equation td { width:auto; }
+table.latexml-equation,
+table.latexml-equationgroup { width:100%; }
+table.latexml-align tr.latexml-equation td.latexml-left + td.latexml-right { padding-left:3em; }
+table.latexml-eqnarray tr.latexml-lefteqn + tr td.latexml-right { min-width:2em; }
+
+/* Hide this from IE */
+tr > td.latexml-eqpad { width:50%; }
+
+dl.latexml-description dt { margin-right:0.5em; float:left;
+	            font-weight:bold; font-size:95%; }
+dl.latexml-description dd { margin-left:5em; }
+dl.latexml-description dl.latexml-description dd { margin-left:3em; }
+
+li.latexml-nobullet { list-style-type:none; }
+
+.latexml-theorem  {margin:1em 0em 1em 0em; }
+
+.latexml-bibliography dt { margin-right:0.5em; float:left; }
+.latexml-bibliography dd { margin-left:3em; }
+.latexml-biblist { list-style-type:none; }
+.latexml-bibtag { font-weight:bold; margin-left:-2em; width:3em; }
+/*.latexml-bibitem-tag + div { display:inline; }*/
+.latexml-bib-title { font-style:italic; }
+.latexml-bib-article .latexml-bib-title { font-style:normal !important; }
+.latexml-bib-journal  { font-style:italic; }
+.latexml-bib-volume { font-weight:bold; }
+
+.latexml-indexlist li { list-style-type:none;  }
+.latexml-indexlist { margin-left:1em; padding-left:1em;}
+.latexml-listing td.latexml-linenumber,
+.latexml-listingblock td.latexml-linenumber
+   { width:3em; text-align:right;}
+/*======================================================================
+ Borders and such */
+.latexml-framed  { border:1px solid black;}
+.latexml-tabular td, .latexml-tabular th { padding:0.1em 0.5em; }
+table { border-collapse:collapse; }
+/* Hmm... the star should be m:mtd */
+td.latexml-t,  th.latexml-t,  *[class~="latexml-t"]  { border-top:1px solid black; }
+td.latexml-r,  th.latexml-r,  *[class~="latexml-r"]  { border-right:1px solid black; }
+td.latexml-b,  th.latexml-b,  *[class~="latexml-b"]  { border-bottom:1px solid black; }
+td.latexml-l,  th.latexml-l,  *[class~="latexml-l"]  { border-left:1px solid black; }
+td.latexml-tt, th.latexml-tt, *[class~="latexml-tt"] { border-top:3px double black; }
+td.latexml-rr, th.latexml-rr, *[class~="latexml-rr"] { border-right:3px double black; }
+td.latexml-bb, th.latexml-bb, *[class~="latexml-bb"] { border-bottom:3px double black; }
+td.latexml-ll, th.latexml-ll, *[class~="latexml-ll"] { border-left:3px double black; }
+
+td.latexml-left,   th.latexml-left   { text-align:left; white-space:nowrap; }
+td.latexml-right,  th.latexml-right  { text-align:right; white-space:nowrap; }
+td.latexml-center, th.latexml-center { text-align:center; white-space:nowrap; }
+td.latexml-middle, th.latexml-middle, tr.latexml-middle       { vertical-align:middle; }
+td.latexml-baseline, th.latexml-baseline, tr.latexml-baseline { vertical-align:baseline; }
+
+/*======================================================================
+ Low-level Basics */
+.latexml-TINY       { font-size:50%; }
+.latexml-Tiny       { font-size:60%; }
+.latexml-tiny       { font-size:65%; }
+.latexml-script     { font-size:70%; }
+.latexml-footnote   { font-size:80%; }
+.latexml-small      { font-size:90%; }
+.latexml-normal     { font-size:100%; }
+.latexml-large      { font-size:110%; }
+.latexml-Large      { font-size:120%; }
+.latexml-LARGE      { font-size:140%; }
+.latexml-huge       { font-size:150%; }
+.latexml-Huge       { font-size:170%; }
+.latexml-HUGE       { font-size:200%; }
+.latexml-sansserif  { font-family: sans-serif; }
+.latexml-typewriter { font-family: monospace; }
+.latexml-bold       { font-weight: bold; }
+.latexml-medium     { font-weight: normal; }
+.latexml-italic     { font-style: italic; }
+.latexml-upright    { font-style: normal; }
+.latexml-slanted    { font-style: oblique; }
+.latexml-smallcaps  { font-variant: small-caps; }
+.latexml-red        { color:red; }
+.latexml-centering  { text-align:center; 
+	      margin:auto; }
+.latexml-inline-block.centering,
+img.latexml-centering  { display:block;
+	      margin:auto; }
+.latexml-flushleft  { text-align:left; }
+.latexml-flushright { text-align:right; }
+.latexml-ERROR      { color:red; }
+cite        { font-style: normal; }
+
+/*======================================================================
+ pop-up footnotes, endnote, margin */
+.latexml-note .latexml-note_content {display:none; }
+.latexml-note .latexml-note_content {
+     width: 70%; right:5%;  font-size:80%;
+     background:#E0E0E0; border:3px outset gray; }
+.latexml-note .latexml-mark { color:blue; }
+.latexml-note-type  { font-weight: bold; }
+.latexml-note:hover .latexml-note_content 
+   { display:block; position:absolute; z-index:10; }

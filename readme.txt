@@ -11,6 +11,25 @@ This is what prosilver looks like:
 ![prosilver screenshot](screenshot_prosilver.png "Prosilver with LaTeXML")
 
 
+
+
+Caching
+-----------
+In order to prevent latexml being called every time the page is rendered, a
+rudimentary caching mechanism is used. Every post gets a time-based uuid. When
+the processing a tex bbcode, the hook script will first check to see if a 
+cache file with that uuid and bbcode index exists. If so, it will simply 
+read the contents of that file. If not, it will call latexml and latexmlpost
+to generate that file, and then read the contents.
+
+There is absolutely no lifetime managment of these cache files, so it might
+be a good idea to go in there from time to time and clean it out. Perhaps as
+I learn more about phpBB I can figure out the right way to do this. 
+
+
+
+
+
 Where am I?
 -----------
 

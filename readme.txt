@@ -22,9 +22,9 @@ cache file with that uuid and bbcode index exists. If so, it will simply
 read the contents of that file. If not, it will call latexml and latexmlpost
 to generate that file, and then read the contents.
 
-There is absolutely no lifetime managment of these cache files, so it might
-be a good idea to go in there from time to time and clean it out. Perhaps as
-I learn more about phpBB I can figure out the right way to do this. 
+There is an additional hook called at the beginning of submit_post and 
+delete_post which will delete these cache files. 
+
 
 
 
@@ -79,6 +79,7 @@ It's an easy fix. Just apply the following patch:
        $doc->validate if $$doc{validate};
        $doc; }
 
+
 Install the files
 -------------------
 
@@ -90,16 +91,47 @@ Edit phpbb_hook.php setting the following variables to their correct location:
     $latexmlpost_path  = "/usr/local/bin/latexmlpost";
     $latexmlstrip_path = "/var/www/phpBB3/latexml/latexml_strip.pl";
 
+
+
 Setup includes/bbcode.php
--------------------
+---------------------------
 
-Apply the following patch. Change "/var/www/phpBB3" to whatever the root 
-directory of PHPBB is. Note that this is at line 118 (at least with my version,
-whichever that is). 
+Add the following on line 118 of includes/bbcode.php
 
-    118a119,120
-    >       include("/var/www/phpBB3/latexml/phpbb_hook.php"); 
-    > 
+    include("/var/www/phpBB3/latexml/phpbb_hook.php");
+    
+right before this line
+
+    // Remove the uid from tags that have not been transformed into HTML
+    $message = str_replace(':' . $this->bbcode_uid, '', $message);
+
+Change "/var/www/phpBB3" to whatever the root 
+directory of PHPBB is. This is the bbcode hook. It is called immediately after
+the normal bbcode processing and extracts the "[tex][/tex]" tags, running their
+contents through latexml and caching the input. 
+
+    
+
+
+Setup includes/functions_posting.php
+-------------------------------------
+
+Add the following to the top, immediately after the initial comment
+
+    // includes latexml hook for deleting cached latexml output
+    require_once('/var/www/phpBB3/latexml/phpbb_post_hook.php');
+
+Add the following to the beginning of submit_post, right after "return false;"
+on line 1637
+
+   clear_latexml_caache($data['bbcode_uid']);
+
+Add the following to the beginning of delete_post, right after the global
+declarations on line 1384
+
+    clear_latexml_caache($data['bbcode_uid']);
+
+
     
 Create the BBCode
 -------------------

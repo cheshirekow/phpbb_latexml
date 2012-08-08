@@ -28,6 +28,15 @@ delete_post which will delete these cache files.
 
 
 
+Security
+-----------
+
+LaTeXML will generate HTML from LaTeX sources. This can potentially open a 
+huge security vulnerability for your site enabling all kinds of XSS attacks. 
+I don't recommend using this unless you trust every one of your users enough 
+to allow them to post any arbitrary html. 
+
+
 
 Info
 --------------------------

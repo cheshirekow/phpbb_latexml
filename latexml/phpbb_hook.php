@@ -40,12 +40,27 @@ for ($i=0; $i < count($tex_matches[0]); $i++)
 
     if( !file_exists( $cache_file ) )
     {
-        $latex_formula = html_entity_decode($tex_matches[1][$i]);
+        // we need to get rid of the html encoding that phpbb has done so far
+        $latex_formula = html_entity_decode($tex_matches[1][$i], 
+                                            ENT_QUOTES | ENT_HTML401);
+        
+        // for some reason latexml isn't respecting the tex-like newline
+        // policy so lets replace singular newlines with a space
+        $latex_formula = preg_replace( "#([^\n])\n([^\n])#","$1 $2",$latex_formula );
+        
+        // for debugging
+//         $fh = fopen("/tmp/latexml-php-text.log",'w');
+//         fwrite($fh,$latex_formula);
+//         fclose($fh);
+        
         
         $descriptorspec = array(
                 0 => array("pipe", "r"),  // stdin is a pipe that the child will read from
                 1 => array("pipe", "w"),  // stdout is a pipe that the child will write to
-                2 => array("file", "/tmp/latexml-php-hook.log", "a") // stderr is a file to write to
+                2 => array("file", "/tmp/latexml-php-hook.log", "w") 
+                                          // stderr is a file to write to, change write
+                                          // mode to 'a' if you're going to tail -f
+                                          // while debugging
         );
         
         // run latexml
@@ -70,6 +85,8 @@ for ($i=0; $i < count($tex_matches[0]); $i++)
             fwrite($pipes[0], sprintf( "
                     \documentclass{article}
                     \usepackage{amsmath}
+                    \usepackage{amssymb}
+                    \usepackage{amsfonts}
                     \begin{document}
                     %s
                     \end{document}
